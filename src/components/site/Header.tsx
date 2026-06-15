@@ -41,7 +41,7 @@ export function Header() {
         <div className="container-px grid grid-cols-[auto_1fr_auto] md:grid-cols-[auto_1fr_auto] lg:grid-cols-[auto_1fr_auto] items-center gap-4 py-4">
           {/* Logo */}
           <Link to="/" className="flex items-center min-w-0">
-            <img src={jslogo} alt="JS Perfumes Logo" className="h-[64px] md:h-[88px] w-auto object-contain mix-blend-multiply" />
+            <img src={jslogo} alt="JS Perfumes Logo" className="h-[64px] md:h-[88px] w-auto object-contain" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -185,7 +185,7 @@ export function Header() {
             {/* Header */}
             <div className="shrink-0 flex items-center justify-between px-6 py-4 bg-white border-b border-[#EFEBE4]">
               <Link to="/" onClick={() => setOpen(false)} className="flex items-center min-w-0">
-                <img src={jslogo} alt="JS Perfumes Logo" className="h-[56px] w-auto object-contain mix-blend-multiply" />
+                <img src={jslogo} alt="JS Perfumes Logo" className="h-[56px] w-auto object-contain" />
               </Link>
 
               <button
