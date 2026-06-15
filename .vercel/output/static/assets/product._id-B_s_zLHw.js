@@ -1,0 +1,1 @@
+import{j as o}from"./index-ClOvmRhq.js";import{S as r}from"./SiteLayout-VaSBSLRJ.js";const n=()=>o.jsx(r,{children:o.jsx("div",{className:"container-px py-20 text-center",children:"Something went wrong."})});export{n as errorComponent};
