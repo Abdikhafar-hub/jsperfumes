@@ -159,4 +159,8 @@
     font-size: .72rem;
     color: var(--muted-foreground);
   }
+
+  .mobile-drawer {
+    background-color: #FAF8F2 !important;
+  }
 }

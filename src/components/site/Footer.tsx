@@ -25,11 +25,11 @@ export function Footer() {
         <div>
           <div className="eyebrow text-gold mb-4">Shop</div>
           <ul className="space-y-2 text-sm">
-            <li><Link to="/category/men" className="hover:text-gold">Men</Link></li>
-            <li><Link to="/category/women" className="hover:text-gold">Women</Link></li>
-            <li><Link to="/category/ouds" className="hover:text-gold">Ouds</Link></li>
-            <li><Link to="/category/bukhoors" className="hover:text-gold">Bukhoors</Link></li>
-            <li><Link to="/category/gift-sets" className="hover:text-gold">Gift Sets</Link></li>
+            <li><Link to="/category/$slug" params={{ slug: "men" }} className="hover:text-gold">Men</Link></li>
+            <li><Link to="/category/$slug" params={{ slug: "women" }} className="hover:text-gold">Women</Link></li>
+            <li><Link to="/category/$slug" params={{ slug: "ouds" }} className="hover:text-gold">Ouds</Link></li>
+            <li><Link to="/category/$slug" params={{ slug: "bukhoors" }} className="hover:text-gold">Bukhoors</Link></li>
+            <li><Link to="/category/$slug" params={{ slug: "gift-sets" }} className="hover:text-gold">Gift Sets</Link></li>
             <li><Link to="/shop" className="hover:text-gold">New Arrivals</Link></li>
           </ul>
         </div>
