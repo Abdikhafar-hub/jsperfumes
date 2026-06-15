@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { ProductCard } from "@/components/site/ProductCard";
@@ -19,6 +20,14 @@ function CategoryPage() {
   const cat = categories.find((c) => c.slug === slug);
   const items = slug === "offers" ? products.filter((p) => p.oldPrice) : slug === "new" ? products.slice(0, 8) : byCategory(slug);
 
+  const [visibleCount, setVisibleCount] = useState(12);
+
+  useEffect(() => {
+    setVisibleCount(12);
+  }, [slug]);
+
+  const visibleItems = items.slice(0, visibleCount);
+
   return (
     <SiteLayout>
       <section className="relative">
@@ -37,9 +46,22 @@ function CategoryPage() {
             <Link to="/shop" className="btn-outline mt-4">Browse All</Link>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {items.map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
+          <>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              {visibleItems.map((p) => <ProductCard key={p.id} product={p} />)}
+            </div>
+
+            {items.length > visibleCount && (
+              <div className="mt-12 flex justify-center">
+                <button
+                  onClick={() => setVisibleCount((prev) => prev + 8)}
+                  className="h-[56px] px-10 bg-transparent border border-gold text-gold hover:bg-gold hover:text-white font-semibold text-xs tracking-widest uppercase rounded-[10px] flex items-center justify-center transition-all duration-300"
+                >
+                  LOAD MORE
+                </button>
+              </div>
+            )}
+          </>
         )}
 
         <div className="mt-16 bg-white border border-border rounded-2xl p-8 text-muted-foreground text-sm leading-relaxed">
