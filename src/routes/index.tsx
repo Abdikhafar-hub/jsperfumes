@@ -55,31 +55,12 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const slides = [
-  { 
-    image: hero1, 
-    eyebrow: "DESIGNER FRAGRANCES • NICHE PERFUMES • ARABIC LUXURY", 
-    title: "Discover Your Signature Scent", 
-    sub: "Discover authentic designer fragrances,\nluxury ouds and niche perfumes curated\nfor those who appreciate distinction." 
-  },
-  { 
-    image: hero2, 
-    eyebrow: "DESIGNER FRAGRANCES • NICHE PERFUMES • ARABIC LUXURY", 
-    title: "Ouds, Bukhoors & Oils", 
-    sub: "Discover authentic designer fragrances,\nluxury ouds and niche perfumes curated\nfor those who appreciate distinction." 
-  },
-  { 
-    image: hero3, 
-    eyebrow: "DESIGNER FRAGRANCES • NICHE PERFUMES • ARABIC LUXURY", 
-    title: "Luxury Gift Sets", 
-    sub: "Discover authentic designer fragrances,\nluxury ouds and niche perfumes curated\nfor those who appreciate distinction." 
-  },
-];
+const campaignImages = [hero1, hero2, hero3];
 
 function Home() {
   const [slide, setSlide] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setSlide((s) => (s + 1) % slides.length), 6000);
+    const t = setInterval(() => setSlide((s) => (s + 1) % campaignImages.length), 6000);
     return () => clearInterval(t);
   }, []);
 
@@ -91,38 +72,67 @@ function Home() {
     <SiteLayout>
       {/* HERO */}
       <section className="w-full pt-0 md:pt-6 md:container-px">
-        <div className="relative overflow-hidden rounded-none md:rounded-3xl h-[calc(100vh-108px)] md:h-auto">
-          {slides.map((s, i) => (
-            <div
-              key={i}
-              className="absolute inset-0 transition-opacity duration-1000"
-              style={{ opacity: i === slide ? 1 : 0 }}
-              aria-hidden={i !== slide}
-            >
-              <img src={s.image} alt="" className="h-full w-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent md:bg-gradient-to-r md:from-black/70 md:via-black/35 md:to-transparent" />
+        <div className="relative overflow-hidden rounded-none md:rounded-3xl bg-ivory grid grid-cols-1 md:grid-cols-[42%_58%] min-h-[600px] md:min-h-[700px] lg:h-[calc(100vh-140px)] border border-border/20 shadow-xs">
+          
+          {/* Left Editorial Text Panel */}
+          <div className="flex flex-col justify-center p-8 sm:p-12 md:p-16 lg:p-20 bg-ivory order-2 md:order-1">
+            <span className="text-[10px] md:text-[11px] tracking-[0.25em] font-semibold text-gold mb-5 md:mb-6 block uppercase">
+              EST. NAIROBI & MOMBASA
+            </span>
+            
+            <h1 className="font-serif text-[42px] sm:text-[52px] md:text-[60px] lg:text-[76px] xl:text-[86px] font-medium leading-[0.96] tracking-tight text-[#1C1814]">
+              Fragrance,<br />Refined.
+            </h1>
+            
+            <p className="mt-6 md:mt-8 text-[15px] sm:text-[16px] lg:text-[17px] leading-[1.7] text-muted-foreground max-w-[360px] whitespace-pre-line">
+              Authentic designer fragrances,{"\n"}
+              rare niche perfumes,{"\n"}
+              and timeless Arabic luxury.
+            </p>
+            
+            <div className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-4">
+              <Link 
+                to="/shop" 
+                className="h-[56px] px-8 bg-gold hover:bg-gold-deep text-white font-semibold text-xs tracking-widest uppercase rounded-[10px] flex items-center justify-center transition-all duration-300 shadow-none border border-transparent"
+              >
+                SHOP COLLECTION
+              </Link>
+              <Link 
+                to="/about" 
+                className="h-[56px] px-8 bg-transparent border border-[#1C1814]/25 hover:border-[#1C1814] text-[#1C1814] font-semibold text-xs tracking-widest uppercase rounded-[10px] flex items-center justify-center transition-all duration-300"
+              >
+                VISIT OUR STORES
+              </Link>
             </div>
-          ))}
-          <div className="relative h-full md:aspect-[21/9] md:min-h-[500px] flex items-center -translate-y-3 md:-translate-y-6">
-            <div className="container-px max-w-3xl text-white py-12 md:py-0">
-              <div className="text-[12px] md:text-[13px] tracking-[0.05em] font-semibold text-gold mb-6">{slides[slide].eyebrow}</div>
-              <h1 className="font-serif text-[42px] sm:text-[48px] md:text-[60px] lg:text-[78px] font-medium leading-[1.02] tracking-normal">{slides[slide].title}</h1>
-              <p className="mt-7 text-[17px] md:text-[20px] leading-[1.7] text-white/90 max-w-[500px] whitespace-pre-line">{slides[slide].sub}</p>
-              <div className="mt-8 flex flex-wrap gap-4">
-                <Link to="/shop" className="h-[56px] px-8 bg-gold hover:bg-gold-deep text-white font-semibold text-xs tracking-widest uppercase rounded-[12px] flex items-center justify-center transition-all duration-300">
-                  SHOP COLLECTION
-                </Link>
-                <Link to="/about" className="h-[56px] px-8 bg-transparent border border-white hover:bg-white hover:text-black text-white font-semibold text-xs tracking-widest uppercase rounded-[12px] flex items-center justify-center transition-all duration-300">
-                  DISCOVER OUR STORY
-                </Link>
+          </div>
+
+          {/* Right Image Slider Panel */}
+          <div className="relative h-[45vh] md:h-full min-h-[350px] md:min-h-0 order-1 md:order-2 overflow-hidden border-b md:border-b-0 md:border-l border-border/20">
+            {campaignImages.map((img, i) => (
+              <div
+                key={i}
+                className="absolute inset-0 transition-opacity duration-1000"
+                style={{ opacity: i === slide ? 1 : 0 }}
+                aria-hidden={i !== slide}
+              >
+                <img src={img} alt="JS Perfumes Luxury Campaign" className="h-full w-full object-cover" />
+                <div className="absolute inset-0 bg-black/5 md:bg-transparent" />
               </div>
+            ))}
+            
+            {/* Slider Dots Indicator */}
+            <div className="absolute bottom-6 right-6 flex gap-2.5 z-10">
+              {campaignImages.map((_, i) => (
+                <button 
+                  key={i} 
+                  onClick={() => setSlide(i)} 
+                  aria-label={`Campaign Slide ${i + 1}`} 
+                  className={`h-1.5 rounded-full transition-all duration-300 ${i === slide ? "w-8 bg-white" : "w-2.5 bg-white/40"}`} 
+                />
+              ))}
             </div>
           </div>
-          <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-2">
-            {slides.map((_, i) => (
-              <button key={i} onClick={() => setSlide(i)} aria-label={`Slide ${i + 1}`} className={`h-1.5 rounded-full transition-all ${i === slide ? "w-8 bg-gold" : "w-3 bg-white/50"}`} />
-            ))}
-          </div>
+
         </div>
       </section>
 

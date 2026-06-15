@@ -6,6 +6,13 @@ import p5 from "@/assets/p5.jpg";
 import p6 from "@/assets/p6.jpg";
 import p7 from "@/assets/p7.jpg";
 import p8 from "@/assets/p8.jpg";
+import imgKalematBlack from "@/assets/kalemat-black.png";
+import imgDahnAlOudh from "@/assets/dahn-al-oudh.png";
+import imgLaYuqawam from "@/assets/la-yuqawam-ambergris.png";
+import imgSupremacyOud from "@/assets/supremacy-oud.png";
+import imgShaghafOudAswad from "@/assets/shaghaf-oud-aswad.png";
+import imgAmberOudGold from "@/assets/amber-oud-gold.png";
+import imgBadeeAlOudGlory from "@/assets/badee-al-oud-glory.png";
 
 export type Product = {
   id: string;
@@ -63,7 +70,26 @@ export const products: Product[] = [
   { id: "asad-car-fragrance", name: "Lattafa Asad Car Fragrance – Vent Clip", brand: "Lattafa", price: 850, image: p1, notes: "Spicy · Woody · Amber", category: "car-fragrances", gender: "Unisex", rating: 4.5 },
   { id: "oud-car-diffuser", name: "Oud Wood Hanging Car Diffuser – 10ml", brand: "JS Atelier", price: 950, image: p1, notes: "Oud · Cardamom · Sandalwood", category: "car-fragrances", gender: "Unisex", rating: 4.7 },
   { id: "eid-mubarak-gift-box", name: "Eid Mubarak Premium Oud Gift Box", brand: "JS Perfumes", price: 18500, image: p6, notes: "Premium Oud · Burner · Bukhoor", category: "gift-sets", gender: "Unisex", rating: 5.0 },
-  { id: "royal-wedding-set", name: "Royal Wedding Scent Consultation & Gift Set", brand: "JS Perfumes", price: 24500, image: p6, notes: "Custom Scent · Luxury Gift Wrap", category: "gift-sets", gender: "Unisex", rating: 4.9 }
+  { id: "royal-wedding-set", name: "Royal Wedding Scent Consultation & Gift Set", brand: "JS Perfumes", price: 24500, image: p6, notes: "Custom Scent · Luxury Gift Wrap", category: "gift-sets", gender: "Unisex", rating: 4.9 },
+  
+  // 7 Requested Ouds
+  { id: "kalemat-black", name: "Arabian Oud Kalemat Black – EDP, 100ml", brand: "Arabian Oud", price: 14500, image: imgKalematBlack, notes: "Blueberry · Honey · Musk · Oud", category: "ouds", gender: "Unisex", badge: "NEW", rating: 4.9 },
+  { id: "dahn-al-oudh", name: "Ajmal Dahn Al Oudh – Pure Oil, 75ml", brand: "Ajmal", price: 18000, image: imgDahnAlOudh, notes: "Pure Oud · Woody Notes", category: "ouds", gender: "Unisex", rating: 4.8 },
+  { id: "la-yuqawam-ambergris", name: "Rasasi La Yuqawam Ambergris Showers – EDP, 75ml", brand: "Rasasi", price: 11500, image: imgLaYuqawam, notes: "Oud · Ambergris · Leather", category: "ouds", gender: "Men", rating: 4.7 },
+  { id: "supremacy-oud", name: "Afnan Supremacy Oud – EDP, 100ml", brand: "Afnan", price: 8500, image: imgSupremacyOud, notes: "Oud · Saffron · Amber", category: "ouds", gender: "Unisex", badge: "NEW", rating: 4.8 },
+  { id: "shaghaf-oud-aswad", name: "Swiss Arabian Shaghaf Oud Aswad – EDP, 75ml", brand: "Swiss Arabian", price: 7200, image: imgShaghafOudAswad, notes: "Oud · Rose · Patchouli", category: "ouds", gender: "Unisex", rating: 4.8 },
+  { id: "amber-oud-gold", name: "Al Haramain Amber Oud Gold Edition – EDP, 100ml", brand: "Al Haramain", price: 9800, image: imgAmberOudGold, notes: "Amber · Vanilla · Musk", category: "ouds", gender: "Unisex", rating: 4.9 },
+  { id: "badee-al-oud-glory", name: "Lattafa Bade'e Al Oud – EDP, 100ml", brand: "Lattafa", price: 5800, image: imgBadeeAlOudGlory, notes: "Oud · Smoke · Spices", category: "ouds", gender: "Unisex", badge: "NEW", rating: 4.9 },
+
+  // 8 Additional Premium Ouds for Load More Catalog
+  { id: "initio-oud-greatness", name: "Initio Oud for Greatness – EDP, 90ml", brand: "Initio", price: 42000, image: p4, notes: "Lavender · Saffron · Nutmeg · Oud", category: "ouds", gender: "Unisex", rating: 5.0 },
+  { id: "mfk-oud-satin", name: "Maison Francis Kurkdjian Oud Satin Mood – EDP, 70ml", brand: "Maison Francis Kurkdjian", price: 39500, image: p4, notes: "Turkish Rose · Violet · Vanilla · Oud", category: "ouds", gender: "Unisex", rating: 4.9 },
+  { id: "creed-royal-oud", name: "Creed Royal Oud – EDP, 100ml", brand: "Creed", price: 46000, image: p2, notes: "Lemon · Pink Pepper · Cedar · Oud", category: "ouds", gender: "Men", rating: 4.9 },
+  { id: "tf-oud-wood-intense", name: "Tom Ford Oud Wood Intense – EDP, 100ml", brand: "Tom Ford", price: 41000, image: p4, notes: "Castoreum · Cypress · Juniper · Oud", category: "ouds", gender: "Men", rating: 4.8 },
+  { id: "byredo-oud-immortel", name: "Byredo Oud Immortel – EDP, 100ml", brand: "Byredo", price: 29500, image: p1, notes: "Limoncello · Incense · Patchouli · Oud", category: "ouds", gender: "Unisex", rating: 4.7 },
+  { id: "amouage-epic-man", name: "Amouage Epic Man – EDP, 100ml", brand: "Amouage", price: 38000, image: p2, notes: "Pink Pepper · Frankincense · Myrrh · Oud", category: "ouds", gender: "Men", rating: 4.9 },
+  { id: "jm-oud-bergamot", name: "Jo Malone Oud & Bergamot – Cologne Intense, 100ml", brand: "Jo Malone", price: 22500, image: p3, notes: "Bergamot · Cedarwood · Oud", category: "ouds", gender: "Unisex", rating: 4.8 },
+  { id: "xerjoff-alexandria-ii", name: "Xerjoff Oud Stars Alexandria II – EDP, 50ml", brand: "Xerjoff", price: 39000, image: p4, notes: "Lavender · Cinnamon · Rose · Oud", category: "ouds", gender: "Unisex", rating: 4.9 }
 ];
 
 export const getProduct = (id: string) => products.find((p) => p.id === id);
