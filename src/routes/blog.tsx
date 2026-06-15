@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import p1 from "@/assets/cat-niche.jpg";
-import p2 from "@/assets/cat-men.jpg";
-import p3 from "@/assets/cat-women.jpg";
+const p1 = "/categories/cat-niche.jpg";
+const p2 = "/categories/cat-men.jpg";
+const p3 = "/categories/cat-women.jpg";
+
 
 export const Route = createFileRoute("/blog")({
   head: () => ({ meta: [{ title: "Fragrance Journal | JS Perfumes Kenya" }] }),

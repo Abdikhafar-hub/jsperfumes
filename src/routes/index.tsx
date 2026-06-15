@@ -2,23 +2,23 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { ProductCard } from "@/components/site/ProductCard";
 import { products } from "@/data/products";
-import hero1 from "@/assets/hero-1.jpg";
-import hero2 from "@/assets/hero-2.jpg";
-import hero3 from "@/assets/hero-3.jpg";
-import catMen from "@/assets/cat-men.jpg";
-import catWomen from "@/assets/cat-women.jpg";
-import catNiche from "@/assets/cat-niche.jpg";
-import aboutStoreInterior from "@/assets/about-store-interior.png";
-import p1 from "@/assets/p1.jpg";
-import p2 from "@/assets/p2.jpg";
-import p3 from "@/assets/p3.jpg";
-import p4 from "@/assets/p4.jpg";
-import p5 from "@/assets/p5.jpg";
-import p6 from "@/assets/p6.jpg";
-import p7 from "@/assets/p7.jpg";
-import p8 from "@/assets/p8.jpg";
-import { ArrowRight, Award, MapPin, ShieldCheck, Truck, Sparkles, Phone, MessageCircle } from "lucide-react";
+const hero1 = "/lifestyle/hero-1.jpg";
+const hero2 = "/lifestyle/hero-2.jpg";
+const hero3 = "/lifestyle/hero-3.jpg";
+const catMen = "/categories/cat-men.jpg";
+const catWomen = "/categories/cat-women.jpg";
+const catNiche = "/categories/cat-niche.jpg";
+const aboutStoreInterior = "/lifestyle/about-store-interior.png";
+import { ArrowRight, Award, MapPin, ShieldCheck, Truck, Sparkles, Phone, MessageCircle, Quote } from "lucide-react";
 import { useEffect, useState } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 
 // Brand Logo Imports
 import logoLattafa from "@/assets/lattafa-logo-png_seeklogo-619588.png";
@@ -64,6 +64,43 @@ function Home() {
     return () => clearInterval(t);
   }, []);
 
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    if (!api) return;
+    
+    const updateStates = () => {
+      setCount(api.scrollSnapList().length);
+      setCurrent(api.selectedScrollSnap());
+    };
+    
+    updateStates();
+    api.on("select", updateStates);
+    api.on("reInit", updateStates);
+    
+    return () => {
+      api.off("select", updateStates);
+      api.off("reInit", updateStates);
+    };
+  }, [api]);
+
+  useEffect(() => {
+    if (!api || isHovered) return;
+    
+    const interval = setInterval(() => {
+      if (api.canScrollNext()) {
+        api.scrollNext();
+      } else {
+        api.scrollTo(0);
+      }
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [api, isHovered]);
+
   const newIn = products.slice(0, 8);
   const onOffer = products.filter((p) => p.oldPrice).slice(0, 4);
   const bestSellers = [...products].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0)).slice(0, 4);
@@ -72,42 +109,10 @@ function Home() {
     <SiteLayout>
       {/* HERO */}
       <section className="w-full pt-0 md:pt-6 md:container-px">
-        <div className="relative overflow-hidden rounded-none md:rounded-3xl bg-ivory grid grid-cols-1 md:grid-cols-[42%_58%] min-h-[600px] md:min-h-[700px] lg:h-[calc(100vh-140px)] border border-border/20 shadow-xs">
+        <div className="relative overflow-hidden rounded-none md:rounded-3xl h-[80vh] md:h-[calc(100vh-140px)] min-h-[550px] md:min-h-[700px] border border-border/20 shadow-xs">
           
-          {/* Left Editorial Text Panel */}
-          <div className="flex flex-col justify-center p-8 sm:p-12 md:p-16 lg:p-20 bg-ivory order-2 md:order-1">
-            <span className="text-[10px] md:text-[11px] tracking-[0.25em] font-semibold text-gold mb-5 md:mb-6 block uppercase">
-              EST. NAIROBI & MOMBASA
-            </span>
-            
-            <h1 className="font-serif text-[42px] sm:text-[52px] md:text-[60px] lg:text-[76px] xl:text-[86px] font-medium leading-[0.96] tracking-tight text-[#1C1814]">
-              Fragrance,<br />Refined.
-            </h1>
-            
-            <p className="mt-6 md:mt-8 text-[15px] sm:text-[16px] lg:text-[17px] leading-[1.7] text-muted-foreground max-w-[360px] whitespace-pre-line">
-              Authentic designer fragrances,{"\n"}
-              rare niche perfumes,{"\n"}
-              and timeless Arabic luxury.
-            </p>
-            
-            <div className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-4">
-              <Link 
-                to="/shop" 
-                className="h-[56px] px-8 bg-gold hover:bg-gold-deep text-white font-semibold text-xs tracking-widest uppercase rounded-[10px] flex items-center justify-center transition-all duration-300 shadow-none border border-transparent"
-              >
-                SHOP COLLECTION
-              </Link>
-              <Link 
-                to="/about" 
-                className="h-[56px] px-8 bg-transparent border border-[#1C1814]/25 hover:border-[#1C1814] text-[#1C1814] font-semibold text-xs tracking-widest uppercase rounded-[10px] flex items-center justify-center transition-all duration-300"
-              >
-                VISIT OUR STORES
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Image Slider Panel */}
-          <div className="relative h-[45vh] md:h-full min-h-[350px] md:min-h-0 order-1 md:order-2 overflow-hidden border-b md:border-b-0 md:border-l border-border/20">
+          {/* Background Image Slider Panel */}
+          <div className="absolute inset-0 overflow-hidden">
             {campaignImages.map((img, i) => (
               <div
                 key={i}
@@ -116,21 +121,53 @@ function Home() {
                 aria-hidden={i !== slide}
               >
                 <img src={img} alt="JS Perfumes Luxury Campaign" className="h-full w-full object-cover" />
-                <div className="absolute inset-0 bg-black/5 md:bg-transparent" />
+                {/* Dark overlay for text readability */}
+                <div className="absolute inset-0 bg-black/40" />
               </div>
             ))}
+          </div>
+
+          {/* Editorial Text Overlay */}
+          <div className="relative z-10 h-full flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-24">
+            <span className="text-[10px] md:text-[11px] tracking-[0.25em] font-semibold text-gold mb-4 md:mb-6 block uppercase">
+              EST. NAIROBI & MOMBASA
+            </span>
             
-            {/* Slider Dots Indicator */}
-            <div className="absolute bottom-6 right-6 flex gap-2.5 z-10">
-              {campaignImages.map((_, i) => (
-                <button 
-                  key={i} 
-                  onClick={() => setSlide(i)} 
-                  aria-label={`Campaign Slide ${i + 1}`} 
-                  className={`h-1.5 rounded-full transition-all duration-300 ${i === slide ? "w-8 bg-white" : "w-2.5 bg-white/40"}`} 
-                />
-              ))}
+            <h1 className="font-serif text-[42px] sm:text-[52px] md:text-[60px] lg:text-[76px] xl:text-[86px] font-medium leading-[0.96] tracking-tight text-white">
+              Fragrance,<br />Refined.
+            </h1>
+            
+            <p className="mt-6 md:mt-8 text-[15px] sm:text-[16px] lg:text-[17px] leading-[1.7] text-white/80 max-w-[360px] whitespace-pre-line">
+              Authentic designer fragrances,{"\n"}
+              rare niche perfumes,{"\n"}
+              and timeless Arabic luxury.
+            </p>
+            <div className="mt-6 md:mt-8 flex flex-row gap-3 max-w-[340px] md:max-w-[380px]">
+              <Link 
+                to="/shop" 
+                className="flex-1 h-[42px] md:h-[52px] px-4 bg-[#C9A227] hover:bg-[#B08D20] text-white font-semibold text-[10px] md:text-xs tracking-widest uppercase rounded-[8px] flex items-center justify-center transition-all duration-300"
+              >
+                SHOP COLLECTION
+              </Link>
+              <Link 
+                to="/about" 
+                className="flex-1 h-[42px] md:h-[52px] px-4 bg-transparent border border-white/40 hover:border-white text-white font-semibold text-[10px] md:text-xs tracking-widest uppercase rounded-[8px] flex items-center justify-center transition-all duration-300"
+              >
+                VISIT OUR STORES
+              </Link>
             </div>
+          </div>
+
+          {/* Slider Dots Indicator */}
+          <div className="absolute bottom-6 right-6 flex gap-2.5 z-10">
+            {campaignImages.map((_, i) => (
+              <button 
+                key={i} 
+                onClick={() => setSlide(i)} 
+                aria-label={`Campaign Slide ${i + 1}`} 
+                className={`h-1.5 rounded-full transition-all duration-300 ${i === slide ? "w-8 bg-white" : "w-2.5 bg-white/40"}`} 
+              />
+            ))}
           </div>
 
         </div>
@@ -235,9 +272,9 @@ function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { title: "Premium Ouds", desc: "Deep, mysterious woody notes crafted from rich agarwood.", img: hero2, slug: "ouds" },
-              { title: "Traditional Bukhoors", desc: "Fine woodchips soaked in fragrant oils to scent your home.", img: p5, slug: "bukhoors" },
-              { title: "Luxury Burners", desc: "Exquisite metal and wood Mabkharas for incense burning.", img: p5, slug: "incense-burners" },
-              { title: "Perfume Oils & Attars", desc: "Concentrated, alcohol-free perfume oils that last all day.", img: p8, slug: "perfume-oils" }
+              { title: "Traditional Bukhoors", desc: "Fine woodchips soaked in fragrant oils to scent your home.", img: "/categories/bukhoors.jpg", slug: "bukhoors" },
+              { title: "Luxury Burners", desc: "Exquisite metal and wood Mabkharas for incense burning.", img: "/categories/incense-burners.jpg", slug: "incense-burners" },
+              { title: "Perfume Oils & Attars", desc: "Concentrated, alcohol-free perfume oils that last all day.", img: "/categories/perfume-oils.jpg", slug: "perfume-oils" }
             ].map((card, i) => (
               <div key={i} className="group relative overflow-hidden rounded-2xl aspect-[3/4] border border-border shadow-sm">
                 <img src={card.img} alt={card.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
@@ -290,12 +327,12 @@ function Home() {
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5">
             {[
-              { title: "Air Fresheners", desc: "Long lasting sprays", img: p7, slug: "air-fresheners" },
-              { title: "Room Sprays", desc: "Instant scent refresh", img: p7, slug: "air-fresheners" },
-              { title: "Linen Sprays", desc: "For fabrics & sheets", img: p7, slug: "air-fresheners" },
-              { title: "Car Fragrances", desc: "Sensory journey", img: p1, slug: "car-fragrances" },
-              { title: "Creams", desc: "Perfumed body hydration", img: p3, slug: "creams" },
-              { title: "Home Scents", desc: "Rich ambient aromas", img: p5, slug: "home-fragrance" }
+              { title: "Air Fresheners", desc: "Long lasting sprays", img: "/categories/air-fresheners.jpg", slug: "air-fresheners" },
+              { title: "Room Sprays", desc: "Instant scent refresh", img: "/categories/room-sprays.jpg", slug: "air-fresheners" },
+              { title: "Linen Sprays", desc: "For fabrics & sheets", img: "/categories/linen-sprays.jpg", slug: "air-fresheners" },
+              { title: "Car Fragrances", desc: "Sensory journey", img: "/categories/car-fragrances.jpg", slug: "car-fragrances" },
+              { title: "Creams", desc: "Perfumed body hydration", img: "/categories/creams.jpg", slug: "creams" },
+              { title: "Home Scents", desc: "Rich ambient aromas", img: "/categories/home-fragrance.jpg", slug: "home-fragrance" }
             ].map((card, i) => (
               <Link key={i} to="/category/$slug" params={{ slug: card.slug }} className="group bg-ivory border border-border/60 hover:border-gold hover:-translate-y-1 transition-all duration-300 rounded-xl overflow-hidden flex flex-col p-3">
                 <div className="aspect-[4/3] rounded-lg overflow-hidden relative">
@@ -393,33 +430,97 @@ function Home() {
 
       {/* FRAGRANCE CONSULTATION */}
       <section className="container-px mt-20">
-        <div className="rounded-3xl bg-gradient-to-br from-[#120F0B] via-[#211A13] to-[#0A0806] text-white px-6 py-16 md:px-16 md:py-20 relative overflow-hidden border border-gold/25 shadow-2xl">
-          <div className="absolute inset-0 opacity-15" style={{ backgroundImage: "radial-gradient(circle at 20% 20%, var(--gold) 0, transparent 40%), radial-gradient(circle at 80% 80%, var(--gold) 0, transparent 40%)" }} />
-          <div className="relative max-w-4xl mx-auto text-center">
-            <div className="eyebrow text-gold">Scent Matcher</div>
-            <h2 className="font-serif text-3xl md:text-5xl mt-3 tracking-wide">Need Help Choosing The Right Scent?</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-white/80 text-sm md:text-base leading-relaxed">Tell us your style, occasion and budget. Our fragrance experts will recommend the perfect perfume, oud or gift set.</p>
+        <div className="rounded-3xl bg-[#FAF8F2] border border-gold/30 px-6 py-12 md:p-12 lg:p-16 relative overflow-hidden shadow-xs">
+          
+          {/* Decorative subtle background radial glow */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 20% 20%, var(--gold) 0, transparent 40%), radial-gradient(circle at 80% 80%, var(--gold) 0, transparent 40%)" }} />
+          
+          <div className="relative grid grid-cols-1 lg:grid-cols-[58%_42%] gap-10 lg:gap-16 items-center">
             
-            {/* Steps Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-12 text-left border-t border-white/10 pt-10">
-              {[
-                { step: "1", title: "Who It's For", desc: "Select men, women, or unisex" },
-                { step: "2", title: "Scent Family", desc: "Choose floral, woody, oud, spicy..." },
-                { step: "3", title: "Share Budget", desc: "Specify price range preference" },
-                { step: "4", title: "Recommendations", desc: "Receive curations on WhatsApp" }
-              ].map((s, i) => (
-                <div key={i} className="flex flex-col gap-2 bg-white/5 border border-white/10 rounded-xl p-4 md:p-5">
-                  <div className="h-7 w-7 rounded-full bg-gold text-white font-serif font-semibold text-sm grid place-items-center">{s.step}</div>
-                  <h3 className="font-serif text-[15px] font-semibold text-white/95 mt-1 leading-tight">{s.title}</h3>
-                  <p className="text-[11px] text-white/60 leading-normal">{s.desc}</p>
-                </div>
-              ))}
+            {/* Left Column: Text & Timeline & Actions */}
+            <div className="flex flex-col justify-center order-2 lg:order-1">
+              
+              {/* Badge */}
+              <div className="flex">
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gold/10 text-gold-deep text-[10px] md:text-[11px] font-semibold tracking-wider uppercase">
+                  <Sparkles className="h-3.5 w-3.5 text-gold" />
+                  Personal Fragrance Concierge
+                </span>
+              </div>
+
+              {/* Heading */}
+              <h2 className="font-serif text-3xl md:text-4.5xl mt-5 tracking-wide text-foreground font-medium leading-tight">
+                Find Your Signature Scent
+              </h2>
+              
+              {/* Subtext */}
+              <p className="mt-4 text-muted-foreground text-sm md:text-base leading-relaxed max-w-xl">
+                Answer a few quick questions and our team will recommend perfumes, ouds, oils or gift sets that match your style and budget.
+              </p>
+
+              {/* Steps Timeline */}
+              <div className="relative mt-12 grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4">
+                {/* Connecting Line for Mobile (Vertical) */}
+                <div className="md:hidden absolute top-5 bottom-5 left-5 w-[1px] bg-[#E7DEC8]" />
+                
+                {/* Connecting Line for Desktop (Horizontal) */}
+                <div className="hidden md:block absolute top-5 left-[12%] right-[12%] h-[1px] bg-[#E7DEC8]" />
+
+                {[
+                  { step: "1", title: "Who It's For", desc: "Select men, women, or unisex" },
+                  { step: "2", title: "Scent Family", desc: "Choose floral, woody, oud, spicy..." },
+                  { step: "3", title: "Share Budget", desc: "Specify price range preference" },
+                  { step: "4", title: "Recommendations", desc: "Receive curations on WhatsApp" }
+                ].map((s, i) => (
+                  <div key={i} className="flex md:flex-col items-start md:items-center text-left md:text-center gap-4 md:gap-2.5 relative z-10">
+                    {/* Number Circle */}
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gold text-white font-serif font-semibold text-sm grid place-items-center border-4 border-[#FAF8F2] shadow-xs">
+                      {s.step}
+                    </div>
+                    {/* Text Details */}
+                    <div className="flex-grow">
+                      <h3 className="font-serif text-[15px] font-semibold text-foreground leading-tight md:mt-2">
+                        {s.title}
+                      </h3>
+                      <p className="text-[12px] md:text-[13px] text-muted-foreground mt-1 leading-relaxed md:max-w-[130px] md:mx-auto">
+                        {s.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Action CTA Buttons */}
+              <div className="mt-10 flex flex-col sm:flex-row gap-4">
+                <Link 
+                  to="/matcher" 
+                  className="btn-gold justify-center h-[52px] sm:h-auto font-semibold uppercase tracking-wider text-xs px-8"
+                >
+                  <Sparkles className="h-4 w-4" /> Find My Scent
+                </Link>
+                <a 
+                  href="https://wa.me/254799517888" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="btn-outline justify-center h-[52px] sm:h-auto bg-white font-semibold uppercase tracking-wider text-xs px-8"
+                >
+                  <MessageCircle className="h-4 w-4" /> Chat With Us
+                </a>
+              </div>
+
             </div>
-            
-            <div className="mt-12 flex flex-wrap justify-center gap-4">
-              <Link to="/matcher" className="btn-gold"><Sparkles className="h-4 w-4" /> Find My Scent</Link>
-              <a href="https://wa.me/254799517888" target="_blank" rel="noreferrer" className="btn-outline !text-white border-white/35 hover:border-gold hover:text-gold"><MessageCircle className="h-4 w-4" /> Chat With Us</a>
+
+            {/* Right Column: Visual Image */}
+            <div className="relative aspect-[4/3] lg:aspect-[4/5] xl:aspect-[3/4] overflow-hidden rounded-2xl border border-[#E7DEC8]/50 shadow-xs order-1 lg:order-2">
+              <img 
+                src="/lifestyle/hero-1.jpg" 
+                alt="JS Perfumes Luxury Concierge Experience" 
+                className="w-full h-full object-cover hover:scale-102 transition-transform duration-700" 
+                loading="lazy" 
+              />
+              <div className="absolute inset-0 bg-black/5" />
             </div>
+
           </div>
         </div>
       </section>
@@ -450,10 +551,10 @@ function Home() {
             {[
               { title: "Wedding Gifts", desc: "Bridal scent boxes", img: catWomen },
               { title: "Eid Gifts", desc: "Celebration gift sets", img: hero3 },
-              { title: "Birthday Gifts", desc: "Personalized perfumes", img: p6 },
-              { title: "Corporate Gifts", desc: "Luxury business gifts", img: p2 },
-              { title: "Premium Gift Boxes", desc: "Custom leather wrapping", img: p6 },
-              { title: "Gift Vouchers", desc: "Give the gift of choice", img: p6 }
+              { title: "Birthday Gifts", desc: "Personalized perfumes", img: "/products/luxury-gift-set.jpg" },
+              { title: "Corporate Gifts", desc: "Luxury business gifts", img: "/products/gift-voucher.jpg" },
+              { title: "Premium Gift Boxes", desc: "Custom leather wrapping", img: "/products/eid-mubarak-gift-box.jpg" },
+              { title: "Gift Vouchers", desc: "Give the gift of choice", img: "/products/gift-voucher.jpg" }
             ].map((card, i) => (
               <div key={i} className="group relative overflow-hidden rounded-xl aspect-[3/4] border border-border shadow-xs">
                 <img src={card.img} alt={card.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
@@ -491,7 +592,7 @@ function Home() {
                 <div className="h-[25%] flex items-center justify-center bg-[#FAF8F2] text-[10px] tracking-wider uppercase font-semibold border-t border-border">Shelves</div>
               </div>
               <div className="aspect-[4/3] overflow-hidden rounded-xl border border-border shadow-xs flex flex-col">
-                <img src={p5} alt="Oud & Bukhoor Display" className="w-full h-[75%] object-cover" loading="lazy" />
+                <img src={"/categories/bukhoors.jpg"} alt="Oud & Bukhoor Display" className="w-full h-[75%] object-cover" loading="lazy" />
                 <div className="h-[25%] flex items-center justify-center bg-[#FAF8F2] text-[10px] tracking-wider uppercase font-semibold border-t border-border">Displays</div>
               </div>
               <div className="aspect-[4/3] overflow-hidden rounded-xl border border-border shadow-xs flex flex-col">
@@ -544,19 +645,117 @@ function Home() {
           <div className="eyebrow">What Our Clients Say</div>
           <h2 className="font-serif text-3xl md:text-4xl mt-2">Trusted Across Kenya</h2>
         </div>
-        <div className="mt-8 grid md:grid-cols-3 gap-5">
-          {[
-            { n: "Amina H.", c: "Mombasa", r: "Authentic, fast delivery and the oud is divine. JS Perfumes is now my go-to." },
-            { n: "Kevin O.", c: "Nairobi", r: "Bought Sauvage from the BBS Mall branch. Genuine product and lovely staff." },
-            { n: "Faith W.", c: "Kisumu", r: "Ordered a gift set for my sister. Beautifully wrapped and arrived in two days." },
-          ].map((t) => (
-            <div key={t.n} className="bg-white border border-border rounded-2xl p-6">
-              <div className="text-gold">★★★★★</div>
-              <p className="mt-3 text-sm leading-relaxed">{t.r}</p>
-              <div className="mt-4 font-serif">{t.n}</div>
-              <div className="text-xs text-muted-foreground">{t.c}</div>
+        
+        <div 
+          className="mt-8 relative"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            setApi={setApi}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-4 md:-ml-6">
+              {[
+                { 
+                  n: "Amina H.", 
+                  c: "Mombasa", 
+                  r: "Authentic oud, fast delivery, and beautiful packaging.",
+                  i: "AH"
+                },
+                { 
+                  n: "Kevin O.", 
+                  c: "Nairobi", 
+                  r: "Bought Sauvage from the BBS Mall branch. Genuine product and lovely staff.",
+                  i: "KO"
+                },
+                { 
+                  n: "Faith W.", 
+                  c: "Kisumu", 
+                  r: "Ordered a gift set for my sister. It arrived beautifully wrapped.",
+                  i: "FW"
+                },
+                { 
+                  n: "Farhana Y.", 
+                  c: "Mombasa", 
+                  r: "The bukhoor quality is amazing. My home smells luxurious.",
+                  i: "FY"
+                },
+                { 
+                  n: "Brian K.", 
+                  c: "Nairobi", 
+                  r: "Customer service helped me pick the perfect scent.",
+                  i: "BK"
+                },
+              ].map((t, index) => (
+                <CarouselItem key={index} className="pl-4 md:pl-6 basis-full md:basis-1/2 lg:basis-1/3 flex">
+                  <div className="w-full p-1 flex">
+                    <div className="bg-[#FAF8F2] border border-gold/30 rounded-2xl p-8 shadow-sm flex flex-col justify-between w-full relative overflow-hidden group hover:border-gold hover:shadow-md transition-all duration-300">
+                      {/* Top Right Decorative Quote Icon */}
+                      <div className="absolute top-6 right-6 text-gold/10 group-hover:text-gold/20 transition-colors duration-300">
+                        <Quote className="h-12 w-12 transform scale-x-[-1]" />
+                      </div>
+
+                      <div>
+                        {/* Star Rating */}
+                        <div className="flex gap-1 text-gold text-sm">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <span key={i}>★</span>
+                          ))}
+                        </div>
+
+                        {/* Review text */}
+                        <p className="mt-5 text-foreground/95 text-[15px] italic leading-relaxed font-serif">
+                          “{t.r}”
+                        </p>
+                      </div>
+
+                      {/* Client Info with Avatar */}
+                      <div className="mt-8 flex items-center gap-3.5 border-t border-[#E7DEC8]/40 pt-5">
+                        {/* Avatar initials badge */}
+                        <div className="h-10 w-10 rounded-full bg-gold/10 border border-gold/25 flex items-center justify-center text-gold-deep text-xs font-semibold tracking-wider">
+                          {t.i}
+                        </div>
+                        
+                        <div>
+                          <div className="font-serif text-[15px] font-semibold text-foreground leading-none">{t.n}</div>
+                          <div className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
+                            <MapPin className="h-3.5 w-3.5 text-gold/70" />
+                            {t.c}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            
+            {/* Centered Controls: Arrows and Dots */}
+            <div className="flex items-center justify-center gap-6 mt-8">
+              <CarouselPrevious className="static translate-y-0 h-10 w-10 border border-gold/30 hover:border-gold hover:bg-gold/10 text-gold-deep hover:text-gold transition-all duration-300" />
+              
+              {/* Dots */}
+              <div className="flex gap-2">
+                {Array.from({ length: count }).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => api?.scrollTo(i)}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      current === i ? "w-8 bg-gold" : "w-2.5 bg-[#E7DEC8] hover:bg-gold/50"
+                    }`}
+                    aria-label={`Go to slide ${i + 1}`}
+                  />
+                ))}
+              </div>
+              
+              <CarouselNext className="static translate-y-0 h-10 w-10 border border-gold/30 hover:border-gold hover:bg-gold/10 text-gold-deep hover:text-gold transition-all duration-300" />
             </div>
-          ))}
+          </Carousel>
         </div>
       </section>
 

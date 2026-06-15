@@ -13,24 +13,24 @@ import {
   Users
 } from "lucide-react";
 
-// Asset Imports
-import imgStoreInterior from "@/assets/about-store-interior.png";
-import imgDarkPerfume from "@/assets/hero-2.jpg";
-import imgBranchNairobi from "@/assets/hero-1.jpg";
-import imgBranchMombasa from "@/assets/about-store-interior.png";
-import imgDailyWear from "@/assets/cat-men.jpg";
-import imgOffice from "@/assets/p2.jpg";
-import imgDateNight from "@/assets/cat-niche.jpg";
-import imgWeddings from "@/assets/cat-women.jpg";
-import imgGifting from "@/assets/p6.jpg";
-import imgLuxuryColl from "@/assets/hero-3.jpg";
+const imgStoreInterior = "/lifestyle/about-store-interior.png";
+const imgDarkPerfume = "/lifestyle/hero-2.jpg";
+const imgBranchNairobi = "/lifestyle/hero-1.jpg";
+const imgBranchMombasa = "/lifestyle/about-store-interior.png";
+const imgDailyWear = "/categories/cat-men.jpg";
+const imgOffice = "/products/armaf-cdn-intense.jpg";
+const imgDateNight = "/categories/cat-niche.jpg";
+const imgWeddings = "/categories/cat-women.jpg";
+const imgGifting = "/products/luxury-gift-set.jpg";
+const imgLuxuryColl = "/lifestyle/hero-3.jpg";
 
-import imgIg1 from "@/assets/p1.jpg";
-import imgIg2 from "@/assets/p2.jpg";
-import imgIg3 from "@/assets/p3.jpg";
-import imgIg4 from "@/assets/p4.jpg";
-import imgIg5 from "@/assets/p5.jpg";
-import imgIg6 from "@/assets/p8.jpg";
+const imgIg1 = "/products/lattafa-asad.jpg";
+const imgIg2 = "/products/armaf-cdn-intense.jpg";
+const imgIg3 = "/products/dior-sauvage.jpg";
+const imgIg4 = "/products/ysl-libre.jpg";
+const imgIg5 = "/products/lattafa-yara.jpg";
+const imgIg6 = "/products/creed-aventus.jpg";
+
 
 export const Route = createFileRoute("/about")({
   head: () => ({
