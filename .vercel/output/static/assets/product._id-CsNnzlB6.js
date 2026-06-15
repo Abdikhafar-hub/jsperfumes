@@ -1,1 +1,0 @@
-import{j as o}from"./index-ClOvmRhq.js";import{S as t}from"./SiteLayout-VaSBSLRJ.js";const r=()=>o.jsx(t,{children:o.jsx("div",{className:"container-px py-20 text-center",children:"Product not found."})});export{r as notFoundComponent};
